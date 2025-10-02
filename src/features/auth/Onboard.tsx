@@ -63,14 +63,14 @@ const Onboard: FC<Props> = ({ navigation }) => {
       navigation.replace("Login");
     }
   };
-
   const handleSkip = () => {
     navigation.replace("Login");
   };
 
 const renderItem: ListRenderItem<Slide> = ({ item }) => {
   return (
-    <ImageBackground
+    <View style={[]}>
+      <ImageBackground
       source={item.backgroundImage}
       style={[styles.slide, { width, height}]}
       resizeMode="cover"
@@ -94,16 +94,16 @@ const renderItem: ListRenderItem<Slide> = ({ item }) => {
             </Text>
           ))}
         </Text>
-
         <Text style={styles.subtitle}>{item.subtitle}</Text>
       </View>
     </ImageBackground>
+    </View>
   );
 };
 
 
   return (
-    <View style={[styles.container, {paddingBottom: insets.bottom}]}>
+    <View style={[styles.container]}>
       {/* Skip button */}
       <TouchableOpacity
         style={[styles.skipTop, { top: insets.top + 10 }]}
@@ -132,7 +132,7 @@ const renderItem: ListRenderItem<Slide> = ({ item }) => {
       />
 
       {/* Bottom row (dots left + circular arrow right) */}
-      <View style={styles.bottomRow}>
+      <View style={[styles.bottomRow, {paddingBottom: insets.bottom}]}>
         {/* Dots */}
         <View style={styles.dotsRow}>
           {slides.map((_, i) => {

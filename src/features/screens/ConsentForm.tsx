@@ -9,7 +9,7 @@ import { Colors } from '../../utils/Constants';
 import CustomInput from '../../components/home/CustomInput';
 import Icons from '../../components/home/Icons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import MultipleCheckbox from '../reusableComponents/MultipleCheckbox';
+import MultipleCheckbox , {CheckboxOption} from '../reusableComponents/MultipleCheckbox';
 import SignatureBox from '../reusableComponents/SignatureBox';
 import GenderModal from '../../components/modals/GenderModal';
 import ConsentFormModal from '../../components/modals/ConsentFormModal';
@@ -19,9 +19,19 @@ import ConsentFormModal from '../../components/modals/ConsentFormModal';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamsList } from '../../navigators/Types';
 
+
+const myOptions: CheckboxOption[] = [
+    { id: 1, label: 'I want to reschedule my appointment' },
+    { id: 2, label: 'I chose a different artist or salon' },
+    { id: 3, label: 'I no longer need the service' },
+    { id: 4, label: 'I had a bad experience previously' },
+    { id: 5, label: 'Found a better price elsewhere' },
+    { id: 6, label: 'I booked by mistake' },
+    { id: 7, label: 'personal reasons' },
+    { id: 8, label: 'other' },
+  ];
+
 type Props = NativeStackScreenProps<RootStackParamsList, "ConsentForm">;
-
-
 
 const ConsentForm: FC<Props> = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -65,7 +75,7 @@ const ConsentForm: FC<Props> = ({ navigation }) => {
                 marginT={vs(5)} marginB={vs(10)} right={false}
                 rightIcon={<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: ms(5) }}
                   onPress={() => console.log('dfghjklghjklhjk')}>
-                  <Icons iconFamily='Ionicons' name='caret-down-outline' size={RFValue(16)} color='#ffffff' />
+                  <Icons iconFamily='Ionicons' name='caret-down-outline' size={RFValue(14)} color='#f3f3f3' />
                 </TouchableOpacity>}
                 secure={false}
               />
@@ -74,7 +84,7 @@ const ConsentForm: FC<Props> = ({ navigation }) => {
                 left={null} marginT={vs(5)} marginB={vs(10)} right={false}
                 rightIcon={<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: ms(5) }}
                   onPress={() => setGenderVisible(true)}>
-                  <Icons iconFamily='Ionicons' name='caret-down-outline' size={RFValue(16)} color='#ffffff' />
+                  <Icons iconFamily='Ionicons' name='caret-down-outline' size={RFValue(14)} color='#f3f3f3' />
                 </TouchableOpacity>}
                 secure={false}
               />
@@ -110,7 +120,7 @@ const ConsentForm: FC<Props> = ({ navigation }) => {
                 left={null} marginT={vs(5)} marginB={vs(10)} right={false}
                 rightIcon={<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: ms(5) }}
                   onPress={() => console.log('dfghjklghjklhjk')}>
-                  <Icons iconFamily='Ionicons' name='caret-down-outline' size={RFValue(16)} color='#ffffff' />
+                  <Icons iconFamily='Ionicons' name='caret-down-outline' size={RFValue(14)} color='#f3f3f3' />
                 </TouchableOpacity>}
                 secure={false}
               />
@@ -124,7 +134,12 @@ const ConsentForm: FC<Props> = ({ navigation }) => {
               />
               <Text style={{ color: Colors.text, fontSize: fs(16) }}>Treatment consent</Text>
               <View style={styles.checkboxContainer}>
-                <MultipleCheckbox />
+                <MultipleCheckbox
+                   options={myOptions}
+                   onChange={(selected) => console.log('Selected IDs:', selected)}
+                   checkboxColor='#F2BA0C'
+                   multiple={false}
+                /> 
               </View>
             </View>
 
@@ -136,7 +151,7 @@ const ConsentForm: FC<Props> = ({ navigation }) => {
                   iconFamily="MaterialDesignIcons"
                   name={selected ? 'checkbox-marked' : 'checkbox-blank-outline'}
                   size={24}
-                  color={selected ? '#F39E01' : '#ffffff'}
+                  color={selected ? '#F2BA0C' : '#ffffff'}
                 />
                 <Text style={styles.text1}>I allow the practitionor to take and use before & after photos for educational or marking purposes.</Text>
               </TouchableOpacity>
@@ -182,7 +197,7 @@ export default ConsentForm
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1C1C22"
+    backgroundColor: "#151b23"
   },
   header: {
     alignItems: 'center'
@@ -216,7 +231,7 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     width: '95%',
-    backgroundColor: '#1C1C22',
+    backgroundColor: '#151b23',
     padding: vs(5),
     borderRadius: fs(5),
     marginTop: vs(5),

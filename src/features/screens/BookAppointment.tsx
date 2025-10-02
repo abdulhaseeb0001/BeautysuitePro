@@ -130,6 +130,24 @@ const BookAppointment: FC<Props> = ({navigation}) => {
             }}
           />
         </View>
+
+        {/* no slot available */}
+        <View style={styles.waitCard}>
+          <Image  style={{width: hs(30), height: hs(30), marginBottom: vs(20)}}
+            source={require('../../assets/icons/clock.png')}/>
+          <View style={styles.waitContent}>
+            <Text style={styles.text1}>No Slots Available</Text>
+            <Text style={[styles.text2, {textAlign: 'center', marginVertical: vs(5)}]}> Join our waiting list and we'll notify you if a slot becomes available.</Text>
+          </View>
+          <CustomButton
+          title='Joint wait list'
+          onPress={() =>navigation.navigate('JoinWaitlist')}
+          disabled={false}
+          loading={false}
+          btnHeight= {48}
+          btnWidth={300}
+          />
+        </View>
         
       </View>
     </ScrollView>
@@ -228,5 +246,19 @@ const styles= StyleSheet.create({
       borderColor: '#363943',
       borderTopLeftRadius: ms(10),
       borderTopRightRadius: ms(10)
+    },
+    waitCard:{
+      borderWidth: 1,
+      borderRadius: ms(10),
+      padding: ms(20),
+      alignItems: 'center',
+      backgroundColor: "#111111",
+      borderColor: '#2A2A2A',
+    },
+    waitContent:{
+      width: hs(270),
+      alignItems: 'center',
+      marginVertical: vs(10)
+      
     }
 })

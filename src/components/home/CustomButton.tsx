@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import CustomText from './CustomText';
 import { Colors } from '../../utils/Constants';
 import { ms, s, vs,} from 'react-native-size-matters'; // ✅ responsive scaling
+import { fs } from '../../utils/Scaling';
  
 interface ButtonProps {
     title: string;
@@ -32,7 +33,7 @@ const CustomButton: FC<ButtonProps> = ({
             style={[
                 styles.button,
                 {
-                    backgroundColor: disabled ? Colors.disabled : btnColor ? btnColor : Colors.primary,
+                    backgroundColor: disabled ? Colors.disabled : btnColor ? btnColor : Colors.buttonColor,
                     width: btnWidth,
                     height: btnHeight ?? vs(50), // ✅ vertical scaling for height
                 },
@@ -43,9 +44,9 @@ const CustomButton: FC<ButtonProps> = ({
                 <ActivityIndicator size={'small'} color={'#fff'} />
             ) : (
                 <CustomText
-                    style={[{ color: textColor || Colors.white }, styles.text]}
-                    fontFamily={'SemiBold'}
-                    fontSize={ms(14)} // ✅ responsive text size
+                    style={[{ color: textColor || Colors.black }, styles.text]}
+                    fontFamily='Regular'
+                    fontSize={fs(11)} // ✅ responsive text size
                 >
                     {title}
                 </CustomText>
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     text: {
-        // color comes from props
+        
     },
 });
  

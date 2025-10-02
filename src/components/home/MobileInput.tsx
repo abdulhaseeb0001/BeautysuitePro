@@ -1,10 +1,10 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Colors, Fonts } from '../../utils/Constants';
 import CustomText from './CustomText';
 import Icons from './Icons';
-import { hs, vs, fs, ms, winHeight } from '../../utils/Scaling'; // ✅ use scaling helpers
-import { CountryPicker,} from 'react-native-country-codes-picker';
+import { hs, vs, fs, ms, winHeight } from '../../utils/Scaling';
+import { CountryPicker } from 'react-native-country-codes-picker';
 import CountryFlag from 'react-native-country-flag';
 
 interface MobileInputProps {
@@ -18,7 +18,8 @@ interface MobileInputProps {
   title?: string;
   marginB?: number;
   marginT?: number;
-};
+}
+
 type CountryItem = {
   code: string;
   dial_code: string;
@@ -37,6 +38,8 @@ const MobileInput: FC<MobileInputProps> = ({
   marginB = 0,
   marginT = 0,
 }) => {
+  const [isFocused, setIsFocused] = useState(false); // ✅ track focus state
+
   const handleSelectCountry = (c: any) => {
     setVisible(false);
     onPress(c);
@@ -54,9 +57,14 @@ const MobileInput: FC<MobileInputProps> = ({
         </CustomText>
       )}
 
-    <View style={styles.container}>
-      <View style={styles.subcontainer}>
-        <CountryFlag
+      <View
+        style={[
+          styles.container,
+          { borderColor: isFocused ? Colors.primary : Colors.border }, // ✅ dynamic border
+        ]}
+      >
+        <View style={styles.subcontainer}>
+          <CountryFlag
             style={{
               width: hs(30),
               height: hs(20),
@@ -66,25 +74,32 @@ const MobileInput: FC<MobileInputProps> = ({
             isoCode={country.code.toLocaleLowerCase()}
             size={ms(25)}
           />
-          <CustomText fontSize={fs(10)} fontFamily="Regular" color='#8C9096'>
-            {' '}{country.code}
+          <CustomText fontSize={fs(10)} fontFamily="Regular" color="#8C9096">
+            {' '}
+            {country.code}
           </CustomText>
+
           {/* Country Picker Button */}
-        <TouchableOpacity onPress={() => setVisible(true)}>  
-          <Icons
-            name="chevron-down"
-            size={fs(14)}
-            iconFamily="Ionicons"
-            color={Colors.disabled}
-            style={{ marginTop: vs(2) }}
-          />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={() => setVisible(true)}>
+            <Icons
+              name="chevron-down"
+              size={fs(14)}
+              iconFamily="Ionicons"
+              color={Colors.disabled}
+              style={{ marginTop: vs(2) }}
+            />
+          </TouchableOpacity>
+        </View>
 
         {/* Divider */}
-      <View style={styles.divider} />
+        <View style={styles.divider} />
+
         {/* Dial code */}
-        <CustomText fontSize={fs(10)} fontFamily="Regular" style={{ marginRight: hs(6), color: '#8C9096' }}>
+        <CustomText
+          fontSize={fs(10)}
+          fontFamily="Regular"
+          style={{ marginRight: hs(6), color: '#8C9096' }}
+        >
           {country.dial_code}
         </CustomText>
 
@@ -97,6 +112,8 @@ const MobileInput: FC<MobileInputProps> = ({
           style={styles.inputContainer}
           keyboardType="number-pad"
           maxLength={10}
+          onFocus={() => setIsFocused(true)}  // ✅ activate highlight
+          onBlur={() => setIsFocused(false)}  // ✅ reset
         />
       </View>
 
@@ -145,7 +162,7 @@ const styles = StyleSheet.create({
     marginBottom: vs(20),
   },
   container: {
-    height: vs(36),
+    height: vs(40),
     borderRadius: ms(10),
     borderColor: Colors.border,
     borderWidth: 0.5,

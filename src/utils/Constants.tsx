@@ -2,6 +2,7 @@ export enum Colors {
     primary = '#823CAC',
     primary_light = '#DDF1FF',
     secondary = '#F2BA0C',
+    buttonColor ='#FFFC00',
     text = '#ffffff',
     text2 = '#F39E01',
     text3 = '#f3f3f3',

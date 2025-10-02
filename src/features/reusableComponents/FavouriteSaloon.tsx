@@ -30,7 +30,7 @@ const FavouriteSaloon: FC = () => {
         renderItem={({ item }) => {
           return (
             <View>
-              <ScrollView horizontal>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.card}>
                   <Image style={{ width: hs(70), height: hs(70), borderRadius: ms(5) }}
                     source={require('../../assets/images/fadeFactorySalon.png')} />
@@ -40,11 +40,11 @@ const FavouriteSaloon: FC = () => {
                       <Text style={{ color: Colors.text3 }}>{item.distance}</Text>
                     </View>
                     <TouchableOpacity style={styles.cardRow2}>
-                      <Icons iconFamily='Feather' name='map-pin' size={RFValue(14)} color='#efefef' />
+                      <Icons iconFamily='Feather' name='map-pin' size={RFValue(12)} color='#efefef' />
                       <Text style={{ color: Colors.text3 }}>{item.location}</Text>
                     </TouchableOpacity>
                     <View style={styles.cardRow3}>
-                      <Icons iconFamily='Ionicons' name='star' color='#f39f39' size={RFValue(16)} />
+                      <Icons iconFamily='Ionicons' name='star' color='#f39f39' size={RFValue(14)} />
                       <Text style={styles.text}>{item.rating}</Text>
                       <Text style={{ color: Colors.text3 }}>{item.reviews}</Text>
                     </View>
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
   },
   cardRow3: {
     flexDirection: 'row',
-    gap: hs(5)
+    gap: hs(5),
+    alignItems: 'center'
   },
   deleteButton: {
     width: hs(62),

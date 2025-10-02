@@ -1,16 +1,16 @@
 import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Colors, Fonts } from '../../utils/Constants';
 import Icons from '../../components/home/Icons';
 import CustomText from './CustomText';
-import { hs, vs, ms, fs } from '../../utils/Scaling'; // ✅ use scaling helpers
+import { hs, vs, ms, fs } from '../../utils/Scaling';
 
 interface InputProps {
   title?: string;
-  left: React.ReactNode;
+  left?: React.ReactNode;
   onClear?: () => void;
   onPressVisible?: () => void;
-  right: boolean;
+  right?: boolean;
   rightIcon?: React.ReactNode;
   marginB?: number;
   marginT?: number;
@@ -19,21 +19,22 @@ interface InputProps {
 }
 
 const CustomInput: FC<InputProps & React.ComponentProps<typeof TextInput>> = ({
-  left = null,
+  title,
+  left,
   onClear,
   right = false,
   rightIcon,
-  title,
   marginB = 0,
   marginT = 0,
-  secure = true,
+  secure = false,
   secureIcon,
   onPressVisible,
-
   ...props
 }) => {
+  const [isFocused, setIsFocused] = useState(false); // ✅ track focus state
+
   return (
-    <View style={[styles.container, { marginTop: vs(marginT), marginBottom: vs(marginB)}]}>
+    <View style={[styles.container, { marginTop: vs(marginT), marginBottom: vs(marginB) }]}>
       {title && (
         <CustomText
           fontFamily="Medium"
@@ -43,39 +44,50 @@ const CustomInput: FC<InputProps & React.ComponentProps<typeof TextInput>> = ({
           {title}
         </CustomText>
       )}
-      <View style={styles.flexRow}>
-        {left && left}
+
+      <View
+        style={[
+          styles.flexRow,
+          { borderColor: isFocused ? Colors.primary : Colors.border }, // ✅ dynamic border
+        ]}
+      >
+        {left && <View style={styles.leftWrapper}>{left}</View>}
+
         <TextInput
           {...props}
           style={styles.inputContainer}
           placeholderTextColor={Colors.disabled}
           secureTextEntry={secure}
+          onFocus={() => setIsFocused(true)}  // ✅ change state
+          onBlur={() => setIsFocused(false)} // ✅ reset state
         />
+
+        {/* Clear button */}
         {props?.value?.length !== 0 && right && !secureIcon && (
-          <View style={styles.icon}>
-            <TouchableOpacity onPress={onClear}>
-              <Icons
-                iconFamily="Ionicons"
-                name="close-circle-sharp"
-                size={fs(16)}
-                color={'#ccc'}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-        {secureIcon && !right && (
-          <TouchableOpacity style={{ marginRight: hs(10) }} onPress={onPressVisible}>
+          <TouchableOpacity style={styles.iconWrapper} onPress={onClear}>
             <Icons
               iconFamily="Ionicons"
-              name={secure ? 'eye-off-outline' : 'eye-outline'}
-              size={fs(20)}
+              name="close-circle-sharp"
+              size={fs(18)}
               color={'#ccc'}
             />
           </TouchableOpacity>
         )}
-        {rightIcon && (
-          rightIcon
+
+        {/* Secure toggle */}
+        {secureIcon && !right && (
+          <TouchableOpacity style={styles.iconWrapper} onPress={onPressVisible}>
+            <Icons
+              iconFamily="Ionicons"
+              name={secure ? 'eye-off-outline' : 'eye-outline'}
+              size={fs(16)}
+              color={'#ccc'}
+            />
+          </TouchableOpacity>
         )}
+
+        {/* Custom right icon */}
+        {rightIcon && <View style={styles.iconWrapper}>{rightIcon}</View>}
       </View>
     </View>
   );
@@ -84,43 +96,33 @@ const CustomInput: FC<InputProps & React.ComponentProps<typeof TextInput>> = ({
 const styles = StyleSheet.create({
   container: {
     width: '95%',
-    // alignSelf: 'center',
   },
   flexRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: ms(10),
     borderWidth: 0.5,
-    width: '100%',
-    backgroundColor: '#1F222A',
-    shadowOffset: { width: 1, height: 1 },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 2,
-    // elevation: 1,
     borderColor: Colors.border,
-    shadowColor: Colors.border,
+    backgroundColor: '#1F222A',
     paddingLeft: hs(10),
-    height: vs(36), // ✅ responsive height instead of height*6
+    height: vs(40),
   },
   inputContainer: {
     flex: 1,
     fontFamily: Fonts.Regular,
-    fontSize: fs(14), // ✅ responsive font
+    fontSize: fs(14),
     color: Colors.text,
-    // paddingVertical: vs(12),
-    height: '100%',
-    marginLeft: hs(12),
+    marginLeft: hs(10),
   },
-  icon: {
-    width: hs(24),
+  leftWrapper: {
+    marginRight: hs(6),
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: hs(10),
   },
-  text: {
-    width: hs(30),
-    marginLeft: hs(10),
+  iconWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: hs(6),
   },
 });
 

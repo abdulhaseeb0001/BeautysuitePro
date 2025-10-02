@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icons from '../../components/home/Icons';
-import { hs, vs, fs } from '../../utils/Scaling';
+import { hs, vs, fs, ms } from '../../utils/Scaling';
 import { Colors } from '../../utils/Constants';
 
 export interface CheckboxOption {
@@ -11,13 +11,13 @@ export interface CheckboxOption {
 
 interface MultipleCheckboxProps {
   options: CheckboxOption[];
-  onChange?: (selected: number[]) => void; 
-  checkboxColor?: string;                   
+  onChange?: (selected: number[]) => void;
+  checkboxColor?: string;
   multiple?: boolean;                       // ✅ new prop
 }
 
-const MultipleCheckbox: React.FC<MultipleCheckboxProps> = ({ 
-  options, 
+const MultipleCheckbox: React.FC<MultipleCheckboxProps> = ({
+  options,
   onChange,
   checkboxColor = Colors.primary,
   multiple = true,                          // ✅ default is multiple selection
@@ -36,7 +36,7 @@ const MultipleCheckbox: React.FC<MultipleCheckboxProps> = ({
         updated = prev.includes(id) ? [] : [id]; // ✅ only one selection
       }
 
-      onChange?.(updated); 
+      onChange?.(updated);
       return updated;
     });
   };
@@ -49,14 +49,22 @@ const MultipleCheckbox: React.FC<MultipleCheckboxProps> = ({
           style={styles.option}
           onPress={() => toggleCheckbox(option.id)}
         >
-          <View style={styles.iconWrapper}>
-            <Icons
-              iconFamily="MaterialDesignIcons"
-              name={selected.includes(option.id) ? 'checkbox-marked' : 'checkbox-blank-outline'}
-              size={20}
-              color={selected.includes(option.id) ? checkboxColor : '#ffffff'}
-            />
+          <View
+            style={[
+              styles.customBox,
+              selected.includes(option.id) && { backgroundColor: checkboxColor, borderColor: checkboxColor },
+            ]}
+          >
+            {selected.includes(option.id) && (
+              <Icons
+                iconFamily="MaterialDesignIcons"
+                name="check"
+                size={fs(16)}
+                color="#fff"
+              />
+            )}
           </View>
+
           <Text style={styles.label}>{option.label}</Text>
         </TouchableOpacity>
       ))}
@@ -73,13 +81,20 @@ const styles = StyleSheet.create({
   option: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: vs(12),
-    height: vs(20),
+    marginBottom: vs(10),
+    height: vs(25),
   },
-  iconWrapper: {
-    borderRadius: 5,  
-    overflow: 'hidden',
+  customBox: {
+    width: hs(20),
+    height: hs(20),
+    borderRadius: ms(5),
+    borderWidth: 2,
+    borderColor: '#ccc',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+
+
   label: {
     marginLeft: hs(10),
     fontSize: fs(12),

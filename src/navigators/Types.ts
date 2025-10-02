@@ -28,6 +28,7 @@ export type RootStackParamsList = {
   CancelAppointment: undefined;
   ConsentForm: undefined;
   ConsentFormModal: undefined;
+  JoinWaitlist: undefined;
 };
 
 // ✅ Bottom Tab routes

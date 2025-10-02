@@ -126,7 +126,9 @@ const Home = ({ navigation, route }: HomeScreenProps) => {
               iconFamily="Ionicons"
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.profileImageContainer}>
+          <TouchableOpacity style={styles.profileImageContainer}
+            onPressIn={()=> navigation.navigate('Profile')}
+          >
             <Image
               style={styles.profileImage}
               source={require("../../assets/images/mypic.jpeg")}
@@ -136,12 +138,14 @@ const Home = ({ navigation, route }: HomeScreenProps) => {
       </View>
 
       {/* searchbox */}
-      <View style={styles.searchBox}>
+      <TouchableOpacity style={styles.searchBox}>
         <Icons name="search" size={20} color="#ffffff" iconFamily="Ionicons" />
         <Text style={{color: Colors.text3}}>search here for services (brows, lips)</Text>
-        <Image style={{width: hs(15), height: vs(10)}}
-        source={require('../../assets/icons/sort.png')}/>
-      </View>
+        <TouchableOpacity>
+          <Image style={{width: hs(15), height: vs(10)}}
+          source={require('../../assets/icons/sort.png')}/>
+        </TouchableOpacity>
+      </TouchableOpacity>
 
       {/* body */}
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -230,7 +234,7 @@ const Home = ({ navigation, route }: HomeScreenProps) => {
                     style={styles.serviceCardButton}
                     onPress={() => rootNavigation.navigate("SaloonDetails")}
                   >
-                    <Text style={{ color: Colors.text }}>Book Now</Text>
+                    <Text style={styles.buttonText}>Book Now</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -287,19 +291,21 @@ const Home = ({ navigation, route }: HomeScreenProps) => {
                   <Text style={[styles.text, { fontSize: 10 }]}>
                     {item.experience} years exp
                   </Text>
-                  <Text style={[styles.text, { fontSize: 10 }]}>
-                    <Icons
+                  <View style={{flexDirection: 'row', gap: hs(2), alignItems: 'center'}}>
+                    <Text style={[styles.text, { fontSize: 10 }]}>
+                     {item.rating}
+                  </Text>
+                  <Icons
                       name="star"
                       size={10}
                       iconFamily="Ionicons"
                       color="#FEB052"
                     />
-                    {item.rating}
-                  </Text>
+                  </View>
                 </View>
                 <View style={styles.artistBottom}>
                   <TouchableOpacity style={styles.artistButton1}>
-                    <Text>Book Now</Text>
+                    <Text  style={styles.buttonText} >Book Now</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.artistButton2}>
                     <Icons
@@ -330,7 +336,8 @@ const styles = StyleSheet.create({
     padding: hs(5),
   },
   text:{
-    color: Colors.text
+    color: Colors.text,
+    fontWeight: '600',
   },
   headerContainer:{
     width: hs(344),
@@ -458,9 +465,13 @@ const styles = StyleSheet.create({
     width: hs(100),
     height: vs(25),
     backgroundColor: Colors.primary,
-    borderRadius: ms(10),
+    borderRadius: ms(7),
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  buttonText:{
+    color: Colors.text ,
+    fontWeight: '600'
   },
   latestVisitsCard:{
     backgroundColor: '#111111',

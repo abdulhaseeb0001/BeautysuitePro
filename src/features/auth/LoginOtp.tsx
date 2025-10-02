@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamsList } from '../../navigators/Types';
 import { OtpInput } from 'react-native-otp-entry';
+import CustomButton from '../../components/home/CustomButton';
 
 
 type LoginOtpScreenNavigationProp = NativeStackNavigationProp<
@@ -123,9 +124,13 @@ useEffect(() => {
         <Text style={[styles.text, {alignSelf: 'center'}]}>Send code again: {timer}s</Text>
       )} 
 
-      {/* Verify Button */}
-      <TouchableOpacity
-        style={styles.btn}
+      <View style={styles.btnContainer}>
+        <CustomButton 
+        title="Send Verification Code"
+        disabled={false}
+        loading={false}
+        btnHeight= {48}
+        btnWidth={355}
         onPress={() => {
           if (otp && otp.toString().length === 5) {
             navigation.navigate('BottomTab');
@@ -133,9 +138,8 @@ useEffect(() => {
            Alert.alert('Please enter a valid OTP');
           }
         }}
-      >
-        <Text style={styles.btntxt}>Verify Mobile Number</Text>
-      </TouchableOpacity>
+      />
+      </View>
     </View>
   );
 };
@@ -185,20 +189,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  btn: {
+  btnContainer: {
     position: 'absolute',
     bottom: 40,
-    borderRadius: 10,
+    marginTop: 50,
     alignItems: 'center',
     alignSelf: 'center',
-    justifyContent: 'center',
-    width: 360, height: 48,
-    backgroundColor: '#F2BA0C',
-    marginTop: 50,
   },
-  btntxt: {
-    fontSize: 16,
-    color: '#ffffff',
-    fontWeight: 'bold',
-  },
+  // btntxt: {
+  //   fontSize: 16,
+  //   color: '#ffffff',
+  //   fontWeight: 'bold',
+  // },
 });

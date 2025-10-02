@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0D1117",
-    alignItems: 'center'
+   
     
   },
     titleContainer: {
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     height: vs(112),
     marginTop: vs(40),
     marginBottom: vs(10),
+    paddingLeft: hs(10)
   },
  text: {
     fontSize: 15,
@@ -187,11 +188,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     paddingRight: hs(20),
     marginVertical: vs(10),
-    width: hs(371)
+    width: hs(371),
+    justifyContent: 'center'
+    
   },
   forgotText:{
     color: '#F39F01',
-    alignSelf: 'flex-end'
+    marginRight: hs(10)
   },
   button: {
     width: vs(371),
@@ -206,8 +209,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: hs(10)
-
+    gap: hs(10),
+    
   },
   signinWithText: {
     color: "#FFFFFF",
@@ -247,6 +250,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
+    alignSelf: 'center'
   },
   emailText: {
     color: "#F39F01",

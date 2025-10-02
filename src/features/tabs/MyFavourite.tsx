@@ -81,10 +81,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1D1F22'
+
   },
   text1: {
     color: '#ffffff',
     marginLeft: 5,
+    
   },
   text2: {
     color: '#B9B9CB',
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: ms(50),
   },
   activeTabText: {
-    fontWeight: 'bold',
+    fontWeight: '400',
     color: '#ffffff',
   },
   contentContainer: {

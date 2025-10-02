@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView, Modal } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView, Modal, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { FC, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // import { RootStackParamsList } from '../../navigators/Navigator';
@@ -105,7 +105,9 @@ const Signup: FC<Props> = ({ navigation }) => {
 
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+    style={[styles.container, { paddingTop: insets.top }]}
+    >
       <TouchableOpacity style={styles.backContainer}
         onPress={() => navigation.goBack()}
       >
@@ -117,14 +119,15 @@ const Signup: FC<Props> = ({ navigation }) => {
       <View style={styles.headerContainer}>
         <Text style={styles.headerTitle}>Create Account</Text>
       </View>
-
-      <View>
+    
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.subContainer}>
         <Text style={styles.text}>Full name</Text>
         <CustomInput style={styles.text}
           placeholder='Enter your no'
           left={false}
           right={false}
-          marginB={10}
+          marginB={7}
           marginT={5}
           secure={false}
           value={fullName}
@@ -137,7 +140,7 @@ const Signup: FC<Props> = ({ navigation }) => {
           placeholder='Enter your email address'
           left={false}
           right={false}
-          marginB={10}
+          marginB={7}
           marginT={5}
           secure={false}
           value={email}
@@ -146,33 +149,25 @@ const Signup: FC<Props> = ({ navigation }) => {
         {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
         <Text style={styles.text}>Gender</Text>
-        <View style={styles.genderContainer}>
-          <Text style={styles.genderText}>{gender ? gender : "Select Gender"}</Text>
-          <TouchableOpacity
-            onPress={() => setGenderVisible(true)}
-          >
-            <Icons
-              name="chevron-down"
-              size={fs(14)}
-              iconFamily="Ionicons"
-              color={Colors.disabled}
-              style={{ marginTop: vs(2) }}
-            />
-          </TouchableOpacity>
+        <CustomInput placeholder={gender ? gender : "Select Gender"}
+           left={null} marginT={vs(5)} marginB={vs(7)} right={false}
+           rightIcon={<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: ms(5) }}
+           onPress={() => setGenderVisible(true)}>
+                  <Icons iconFamily='Ionicons' name='chevron-down' size={14} color='#f3f3f3' />
+                </TouchableOpacity>}
+           secure={false}
+         />
           {errors.gender && <Text style={styles.error}>{errors.gender}</Text>}
-        </View>
-
 
         <Text style={styles.text}>mobile</Text>
         <MobileInput
           visible={visible}
           setVisible={setVisible}
           onPress={setCountry}
-          //  country={country}
           setContact={setContact}
           contact={contact}
           placeHolder="Enter your phone"
-          marginB={10}
+          marginB={7}
           marginT={5}
           country={{ code: "IN", dial_code: "+91", name: "India" }}
         />
@@ -183,7 +178,7 @@ const Signup: FC<Props> = ({ navigation }) => {
           placeholder='enter a password'
           left={false}
           right={false}
-          marginB={10}
+          marginB={7}
           marginT={5}
           secure={!showeye}
           secureIcon={true}
@@ -198,7 +193,7 @@ const Signup: FC<Props> = ({ navigation }) => {
           placeholder='Re enter same password'
           left={false}
           right={false}
-          marginB={10}
+          marginB={7}
           marginT={5}
           secure={!showeye1}
           secureIcon={true}
@@ -239,6 +234,7 @@ const Signup: FC<Props> = ({ navigation }) => {
         btnHeight={48}
         btnWidth={371}
         onPress={handleSignup}
+        
       />
 
       <View style={styles.footer}>
@@ -247,7 +243,8 @@ const Signup: FC<Props> = ({ navigation }) => {
           <Text style={styles.footerLink}> Log in</Text>
         </TouchableOpacity>
       </View>
-
+      </ScrollView>
+    
       {/* gender Modal */}
       <GenderModal
         visible={genderVisible}
@@ -255,8 +252,7 @@ const Signup: FC<Props> = ({ navigation }) => {
         onSelect={(value) => setGender(value)}
       />
 
-
-    </View>
+  </KeyboardAvoidingView>
   )
 }
 
@@ -266,7 +262,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0D1117",
-    paddingLeft: hs(10),
+    paddingLeft: hs(5),
   },
   backContainer: {
     width: 31,
@@ -298,6 +294,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     marginVertical: 5,
   },
+  subContainer:{
+  paddingLeft: hs(5)
+  },
   middleSection: {
     alignItems: 'center',
     width: hs(371)
@@ -307,22 +306,22 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginBottom: 10,
   },
-  genderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: vs(36),
-    backgroundColor: '#1F222A',
-    borderRadius: ms(10),
-    width: '95%',
-    borderColor: Colors.border,
-    borderWidth: 0.5,
-    paddingLeft: hs(25),
-    alignItems: 'center',
-    paddingRight: hs(10),
-    marginTop: vs(5),
-    marginBottom: vs(10)
+  // genderContainer: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   height: vs(36),
+  //   backgroundColor: '#1F222A',
+  //   borderRadius: ms(10),
+  //   width: '95%',
+  //   borderColor: Colors.border,
+  //   borderWidth: 0.5,
+  //   paddingLeft: hs(25),
+  //   alignItems: 'center',
+  //   paddingRight: hs(10),
+  //   marginTop: vs(5),
+  //   marginBottom: vs(10)
 
-  },
+  // },
   genderText: {
     color: '#ffffff'
   },
@@ -330,6 +329,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
     marginVertical: 10,
+    paddingLeft: hs(5)
   },
   text1: {
     color: '#ffffff'
@@ -354,11 +354,10 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    position: 'absolute',
-    bottom: 40,
+    marginTop: vs(20),
     flexDirection: "row",
     width: 334,
-    height: 18,
+    height: vs(20),
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",

@@ -21,6 +21,7 @@ import Payment from '../features/screens/Payment';
 import BookingSuccess from '../features/screens/BookingSuccess';
 import ConsentForm from '../features/screens/ConsentForm'
 import CancelAppointment from '../features/screens/CancelAppointment'
+import JoinWaitlist from '../features/screens/JoinWaitlist'
 
 
 
@@ -54,6 +55,7 @@ export default function Navigator(){
               <Stack.Screen name='BookingSuccess' component={BookingSuccess} />
               <Stack.Screen name='ConsentForm' component={ConsentForm} />
               <Stack.Screen name='CancelAppointment' component={CancelAppointment} />
+              <Stack.Screen name='JoinWaitlist' component={JoinWaitlist} />
               
             </Stack.Navigator>
         </NavigationContainer>
